@@ -1,118 +1,156 @@
-# Crear un entorno virtual en Python (paso a paso)
+Verificar que Python esté instalado
 
-Un **entorno virtual** en Python sirve para aislar librerías y versiones de cada proyecto, evitando conflictos entre dependencias.
+Abre VS Code → abre una terminal (Ctrl + ñ o Ctrl + `) y escribe:
 
----
-
-## 1. Verificar que Python esté instalado
-
-Abre la terminal o consola y escribe:
-
-```bash
 python --version
-o
 
-bash
-Copiar código
-python3 --version
-Si aparece una versión (por ejemplo Python 3.12.1), todo bien.
 
-2. Ubicarse en la carpeta del proyecto
-Muévete a la carpeta donde estará tu proyecto:
+o si no funciona:
 
-bash
-Copiar código
-cd ruta/del/proyecto
-Ejemplo en Windows:
+py --version
 
-bash
-Copiar código
-cd Documents\mi_proyecto
-Ejemplo en macOS / Linux:
 
-bash
-Copiar código
-cd ~/mi_proyecto
-3. Crear el entorno virtual
-Ejecuta el siguiente comando:
+👉 Si te sale algo como Python 3.x.x, todo bien.
+👉 Si no, instala Python desde python.org y marca la casilla “Add Python to PATH”.
 
-bash
-Copiar código
+2️⃣ Abrir tu proyecto en VS Code
+
+Crea una carpeta para tu proyecto
+Ejemplo: mi_proyecto_python
+
+Ábrela en VS Code:
+
+Archivo → Abrir carpeta → selecciona tu carpeta
+
+📁 Tu estructura inicial será algo así:
+
+mi_proyecto_python/
+
+3️⃣ Crear el entorno virtual (venv)
+
+En la terminal de VS Code, dentro de la carpeta del proyecto, escribe:
+
+En Windows:
 python -m venv venv
-📌 venv es el nombre del entorno (puedes cambiarlo si quieres).
 
-Al hacerlo, se creará una carpeta llamada venv.
 
-4. Activar el entorno virtual
-En Windows (CMD o PowerShell)
-bash
-Copiar código
+o:
+
+py -m venv venv
+
+
+📌 venv es el nombre del entorno (puedes llamarlo como quieras, pero venv es el estándar).
+
+Ahora tu carpeta se verá así:
+
+mi_proyecto_python/
+│── venv/
+
+4️⃣ Activar el entorno virtual
+🔹 Windows (PowerShell o CMD):
 venv\Scripts\activate
-En macOS o Linux
-bash
-Copiar código
+
+
+Si todo salió bien, verás algo así:
+
+(venv) C:\ruta\mi_proyecto_python>
+
+
+👉 Ese (venv) significa que el entorno virtual está activo ✅
+
+🔹 Mac / Linux:
 source venv/bin/activate
-Si se activó correctamente, verás algo así:
 
-text
-Copiar código
-(venv)
-al inicio de la línea de la terminal.
+5️⃣ Seleccionar el entorno virtual en VS Code (MUY IMPORTANTE)
 
-5. Instalar librerías dentro del entorno
-Con el entorno activado, instala paquetes con pip:
+Presiona:
 
-bash
-Copiar código
-pip install nombre_paquete
-Ejemplo:
+Ctrl + Shift + P
 
-bash
-Copiar código
-pip install numpy
-Estas librerías solo se instalarán en este entorno.
 
-6. Ver las librerías instaladas
-bash
-Copiar código
+Escribe:
+
+Python: Select Interpreter
+
+
+Elige el que diga algo como:
+
+Python 3.x (venv)
+
+
+🧠 Esto hace que VS Code use ese Python, no el del sistema.
+
+6️⃣ Crear tu archivo Python
+
+Crea un archivo, por ejemplo:
+
+main.py
+
+
+Prueba con algo simple:
+
+print("Hola desde mi entorno virtual")
+
+
+Ejecuta:
+
+python main.py
+
+7️⃣ Instalar librerías en el entorno virtual
+
+⚠️ Asegúrate de que el entorno esté activado (que veas (venv)).
+
+Ejemplo: instalar requests
+pip install requests
+
+
+Instalar varias librerías:
+
+pip install numpy pandas matplotlib
+
+
+Ver librerías instaladas:
+
 pip list
-7. Guardar dependencias (opcional pero recomendado)
-bash
-Copiar código
+
+8️⃣ Guardar las librerías del proyecto (requirements.txt)
+
+Esto es CLAVE si luego quieres pasar tu proyecto a otra PC.
+
 pip freeze > requirements.txt
-Esto crea un archivo con todas las dependencias del proyecto.
 
-8. Desactivar el entorno virtual
-Cuando termines de trabajar:
 
-bash
-Copiar código
+Se crea un archivo:
+
+requirements.txt
+
+
+Con contenido tipo:
+
+requests==2.31.0
+numpy==1.26.4
+
+9️⃣ Instalar librerías desde requirements.txt
+
+En otro equipo o proyecto:
+
+pip install -r requirements.txt
+
+10️⃣ Desactivar el entorno virtual (cuando quieras)
 deactivate
-Resumen rápido
-Crear entorno:
 
-bash
-Copiar código
+🔥 RESUMEN RÁPIDO
+# Crear entorno
 python -m venv venv
-Activar entorno:
 
-Windows:
-
-bash
-Copiar código
+# Activar (Windows)
 venv\Scripts\activate
-macOS / Linux:
 
-bash
-Copiar código
-source venv/bin/activate
-Instalar paquetes:
+# Instalar librerías
+pip install nombre_libreria
 
-bash
-Copiar código
-pip install paquete
-Salir del entorno:
+# Guardar dependencias
+pip freeze > requirements.txt
 
-bash
-Copiar código
-
+# Salir del entorno
+deactivate
