@@ -2,12 +2,16 @@ Verificar que Python esté instalado
 
 Abre VS Code → abre una terminal (Ctrl + ñ o Ctrl + `) y escribe:
 
+```python
 python --version
+```
 
 
 o si no funciona:
 
+```python
 py --version
+```
 
 
 👉 Si te sale algo como Python 3.x.x, todo bien.
@@ -31,13 +35,15 @@ mi_proyecto_python/
 En la terminal de VS Code, dentro de la carpeta del proyecto, escribe:
 
 En Windows:
+```python
 python -m venv venv
-
+```
 
 o:
 
+```python
 py -m venv venv
-
+```
 
 📌 venv es el nombre del entorno (puedes llamarlo como quieras, pero venv es el estándar).
 
@@ -48,8 +54,9 @@ mi_proyecto_python/
 
 4️⃣ Activar el entorno virtual
 🔹 Windows (PowerShell o CMD):
+```python
 venv\Scripts\activate
-
+```
 
 Si todo salió bien, verás algo así:
 
@@ -59,8 +66,9 @@ Si todo salió bien, verás algo así:
 👉 Ese (venv) significa que el entorno virtual está activo ✅
 
 🔹 Mac / Linux:
+```python
 source venv/bin/activate
-
+```
 5️⃣ Seleccionar el entorno virtual en VS Code (MUY IMPORTANTE)
 
 Presiona:
@@ -94,25 +102,30 @@ print("Hola desde mi entorno virtual")
 
 Ejecuta:
 
+```python
 python main.py
+```
 
 7️⃣ Instalar librerías en el entorno virtual
 
 ⚠️ Asegúrate de que el entorno esté activado (que veas (venv)).
 
 Ejemplo: instalar requests
+```python
 pip install requests
-
+```
 
 Instalar varias librerías:
 
+```python
 pip install numpy pandas matplotlib
-
+```
 
 Ver librerías instaladas:
 
+```python
 pip list
-
+```
 8️⃣ Guardar las librerías del proyecto (requirements.txt)
 
 Esto es CLAVE si luego quieres pasar tu proyecto a otra PC.
@@ -134,23 +147,29 @@ numpy==1.26.4
 
 En otro equipo o proyecto:
 
+```python
 pip install -r requirements.txt
-
+```
 10️⃣ Desactivar el entorno virtual (cuando quieras)
+```python
 deactivate
-
+```
 🔥 RESUMEN RÁPIDO
 # Crear entorno
+```python
 python -m venv venv
-
+```
 # Activar (Windows)
+```python
 venv\Scripts\activate
-
+```
 # Instalar librerías
+```python
 pip install nombre_libreria
-
+```
 # Guardar dependencias
+```python
 pip freeze > requirements.txt
-
+```
 # Salir del entorno
 deactivate
