@@ -1,4 +1,3 @@
-```phyton
 numero = int(input("Ingresa un número decimal: "))
 
 def convertir(numero, base):
@@ -20,4 +19,5 @@ print("\nResultados:")
 print("Binario:", convertir(numero, 2))
 print("Octal:", convertir(numero, 8))
 print("Hexadecimal:", convertir(numero, 16))
-```
+
+
