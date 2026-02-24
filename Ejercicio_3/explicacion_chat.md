@@ -1,7 +1,3 @@
-Perfecto, te lo voy a explicar **detalladamente y con lógica paso a paso**, como si estuviéramos analizando el programa mentalmente 👇
-
----
-
 # 🔹 1️⃣ Variables iniciales
 
 ```python
@@ -246,13 +242,3 @@ Pero:
 
 ⚠️ Las funciones no retornan valores
 ⚠️ El `is None` hace que la condición se active siempre
-
----
-
-Si quieres, puedo explicarte ahora:
-
-* Por qué `None` causa ese comportamiento
-* Cómo fluye exactamente el `or`
-* Cómo piensa Python cuando evalúa esa línea
-
-Tú dime 😄
