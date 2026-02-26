@@ -1,0 +1,101 @@
+UsuarioCorrecto = "admin"
+ContraseñaCorrecta = "Admin2026"
+
+intentos = 0
+acceso = 0
+total_break = 0
+
+def count_pass(contraseña):
+    if len(contraseña) < 8:
+        print("La contraseña debe contener al menos 8 caracteres")
+        return False
+    return True
+
+def caracter_numerico(contraseña):
+    for c in contraseña:
+        if c.isdigit():
+            return True
+    print("La contraseña debe contener al menos un número")
+    return False
+
+def caracter_letra(contraseña):
+    for c in contraseña:
+        if c.isalpha():
+            return True
+    print("La contraseña debe contener al menos una letra")
+    return False
+
+while intentos < 3:
+    
+    usuario = input("Usuario:")
+    contraseña = input("Contraseña:")
+
+#Validacion de usuario vacio
+    if usuario == "": 
+       
+        print("No se premite usuario vacio")
+        intentos = intentos + 1
+
+#Validacion de espacios
+    elif " " in usuario:
+        
+        print("No se permiten espacios")
+        intentos = intentos + 1
+
+    elif (
+    count_pass(contraseña) is None or
+    caracter_numerico(contraseña) is None or
+    caracter_letra(contraseña) is None
+):
+        intentos = intentos + 1
+
+#Validacion de usuario y contrase incorrecta
+    elif usuario != UsuarioCorrecto or ContraseñaCorrecta != contraseña:
+        
+        print("usuario o contraseña invalidos")
+        intentos = intentos + 1
+
+#Aceptacion
+    elif usuario == UsuarioCorrecto and ContraseñaCorrecta == contraseña:
+        
+        acceso = acceso + 1
+        print("inicio de sesion exitoso")
+
+        while acceso == 1:
+    
+            print("MUENUUU")
+            print("1. Clasificar numero(positivo/negativo/cero+par/impar)")
+            print("2. Categoria de edad y permisos(reglas de negocio)")
+            print("3. Calcular tarifa final (Descuentos multiples)")
+            print("4. Cerrar sesion (volver al login)")
+            print("5. Salir")
+
+            opcion = int(input("Dame el numero de opcion: "))
+
+            if opcion == 1:
+                
+                print("clasificacion de numero")
+
+            elif opcion == 2:
+
+                print("Categoria de edad y permisos(reglas de negocio")
+
+            elif opcion == 3:
+
+                print("calculadora tarifa final")
+
+            elif opcion == 4:
+                print("sesion cerrada")
+                acceso = 0
+                intentos = 0
+         
+            elif opcion == 5:
+                print("saliendo")
+                total_break = total_break + 1
+                break
+
+            else: 
+                print("opcion invalida")
+                continue
+    if total_break == 1:
+        break
