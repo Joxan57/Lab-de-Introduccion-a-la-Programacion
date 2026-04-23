@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Escáner</title>
+
+<script src="https://unpkg.com/html5-qrcode"></script>
+<script src="https://unpkg.com/@zxing/library@latest"></script>
+
+<style>
+body {
+    margin:0;
+    font-family: Arial;
+    background:#1e1e2f;
+    color:white;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+}
+
+.container {
+    text-align:center;
+    width:90%;
+    max-width:500px;
+}
+
+#scanner {
+    width:100%;
+    height:300px;
+    border:2px solid #00ffcc;
+    border-radius:15px;
+    overflow:hidden;
+    margin:20px 0;
+}
+
+#scanner video {
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+button {
+    margin:10px;
+    padding:12px;
+    border:none;
+    border-radius:10px;
+    background:#00ffcc;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+#resultado {
+    margin-top:15px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+    <h2>📷 Escáner</h2>
+
+    <button onclick="iniciarQR()">QR</button>
+    <button onclick="iniciarBarras()">Barras</button>
+
+    <div id="scanner"></div>
+
+    <div id="resultado">Selecciona una opción</div>
+</div>
+
+<script>
+let qrScanner;
+let codeReader;
+
+function detener() {
+    if (qrScanner) {
+        qrScanner.stop().catch(()=>{});
+        qrScanner.clear();
+    }
+    if (codeReader) {
+        codeReader.reset();
+    }
+    document.getElementById("scanner").innerHTML = "";
+}
+
+// 🔳 QR
+function iniciarQR() {
+    detener();
+
+    qrScanner = new Html5Qrcode("scanner");
+
+    qrScanner.start(
+        { facingMode: "environment" },
+        { fps: 10, qrbox: 250 },
+        (text) => {
+            detener();
+            document.getElementById("resultado").innerHTML =
+                `<a href="${text}" target="_blank">${text}</a>`;
+        }
+    );
+}
+
+// 📦 BARRAS
+function iniciarBarras() {
+    detener();
+
+    const video = document.createElement("video");
+    video.setAttribute("autoplay", true);
+    video.setAttribute("playsinline", true);
+
+    document.getElementById("scanner").appendChild(video);
+
+    const hints = new Map();
+    hints.set(ZXing.DecodeHintType.POSSIBLE_FORMATS, [
+        ZXing.BarcodeFormat.EAN_13,
+        ZXing.BarcodeFormat.EAN_8,
+        ZXing.BarcodeFormat.CODE_128
+    ]);
+
+    codeReader = new ZXing.BrowserMultiFormatReader(hints);
+
+    navigator.mediaDevices.getUserMedia({
+        video: { facingMode: "environment" }
+    }).then(stream => {
+
+        video.srcObject = stream;
+
+        codeReader.decodeFromVideoElementContinuously(video, (result) => {
+            if (result) {
+                detener();
+                buscarProducto(result.text);
+            }
+        });
+    });
+}
+
+// 🔍 producto
+async function buscarProducto(codigo) {
+    let div = document.getElementById("resultado");
+    div.innerHTML = "Buscando...";
+
+    try {
+        let res = await fetch(`https://world.openfoodfacts.org/api/v0/product/${codigo}.json`);
+        let data = await res.json();
+
+        if (data.status === 1) {
+            let p = data.product;
+            div.innerHTML = `<h3>${p.product_name}</h3><p>${p.brands}</p>`;
+        } else {
+            div.innerHTML = codigo;
+        }
+
+    } catch {
+        div.innerHTML = codigo;
+    }
+}
+</script>
+
+</body>
+</html>
