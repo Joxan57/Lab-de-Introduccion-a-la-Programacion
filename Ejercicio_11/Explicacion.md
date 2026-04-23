@@ -1,11 +1,3 @@
-Claro 🔥 aquí lo tienes listo en **formato Markdown (.md)** para que lo pegues directo en tu repositorio de GitHub 👇
-
----
-
-# 📷 Escáner QR y Códigos de Barras con Flask
-
-## 🧠 Descripción
-
 Este proyecto consiste en una aplicación web hecha con Flask que permite usar la cámara del dispositivo para escanear códigos QR y códigos de barras en tiempo real.
 
 Dependiendo del tipo de código:
@@ -30,7 +22,7 @@ Dependiendo del tipo de código:
 
 ---
 
-## 📁 Estructura del proyecto
+## Estructura del proyecto
 
 ```
 /proyecto
@@ -266,18 +258,3 @@ Este proyecto usa Flask para crear una página web que accede a la cámara del d
 
 Todo se procesa directamente desde el navegador usando JavaScript.
 
----
-
-## 😎 Autor
-
-Proyecto desarrollado como práctica de integración entre backend (Flask) y frontend (JS + cámara).
-
----
-
-Si quieres, te puedo hacer también:
-
-* 📸 imágenes para el README
-* 🎥 demo GIF
-* 🧾 README más pro tipo GitHub top
-
-Solo dime 🚀
