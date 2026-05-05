@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Captura de Producto</title>
+    <script src="https://unpkg.com/html5-qrcode"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container-main">
+        <header class="app-header">
+            <h1>📦 Gestión de Productos</h1>
+            <p class="subtitle">Sistema inteligente de inventario con lectura QR</p>
+        </header>
+
+        <div class="content-wrapper">
+            <!-- Sección de Inventario -->
+            <section class="inventory-section">
+                <div class="section-header">
+                    <h2>📋 Inventario Consolidado</h2>
+                    <span class="badge-count">{{ productos|length }} productos</span>
+                </div>
+                <div class="lista-productos">
+                    <ul>
+                        {% for p in productos %}
+                        <li class="inventory-item">
+                            <div class="item-header">
+                                <span class="item-info">
+                                    <span class="provider-id">{{ p.id_proveedor }}</span>
+                                    <span class="product-name">{{ p.nombre_producto }}</span>
+                                    <span class="product-code">{{ p.codigo }}</span>
+                                    <span class="product-qty">{{ p.num_producto }} unidades</span>
+                                </span>
+                                <button onclick="toggleEdit('form-{{ p.id }}')" class="btn-edit">✏️ Editar</button>
+                            </div>
+
+                            <form id="form-{{ p.id }}" action="/editar/{{ p.id }}" method="POST" class="edit-form" style="display:none;">
+                                <div class="form-grid">
+                                    <div class="field">
+                                        <label>ID Proveedor</label>
+                                        <input type="text" name="nuevo_id_prov" value="{{ p.id_proveedor }}">
+                                    </div>
+                                    <div class="field">
+                                        <label>Nombre del Producto</label>
+                                        <input type="text" name="nuevo_nombre" value="{{ p.nombre_producto }}">
+                                    </div>
+                                    <div class="field">
+                                        <label>Código</label>
+                                        <input type="text" name="nuevo_codigo" value="{{ p.codigo }}">
+                                    </div>
+                                    <div class="field">
+                                        <label>Cantidad</label>
+                                        <input type="number" name="nueva_cantidad" value="{{ p.num_producto }}">
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn-update">✓ ACTUALIZAR DATOS</button>
+                            </form>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                    {% if not productos %}
+                    <div class="empty-state">
+                        <p>📦 No hay productos en el inventario</p>
+                    </div>
+                    {% endif %}
+                </div>
+            </section>
+
+            <!-- Sección de Captura -->
+            <section class="capture-section">
+                <div class="section-header">
+                    <h2>🔍 Captura de Producto</h2>
+                </div>
+                
+                <div class="qr-reader-wrapper">
+                    <div id="reader" class="qr-reader"></div>
+                    <p class="qr-hint">Apunta la cámara al código de barras o código QR</p>
+                </div>
+
+                <form action="/guardar" method="POST" class="capture-form">
+                    <div class="form-group">
+                        <input type="text" name="id_proveedor" placeholder="ID Proveedor" required class="input-field">
+                        <span class="field-icon">🏭</span>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" name="nombre_producto" placeholder="Nombre del Producto" required class="input-field">
+                        <span class="field-icon">📛</span>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" id="codigo_barras" name="codigo" placeholder="Código de Barras" required class="input-field">
+                        <span class="field-icon">🔢</span>
+                    </div>
+                    <div class="form-group">
+                        <input type="number" name="num_producto" placeholder="Cantidad" required class="input-field">
+                        <span class="field-icon">📊</span>
+                    </div>
+                    <button type="submit" class="btn-submit">+ GUARDAR PRODUCTO</button>
+                </form>
+            </section>
+        </div>
+    </div>
+
+    <script>
+        function toggleEdit(idForm) {
+            var x = document.getElementById(idForm);
+            x.style.display = (x.style.display === "none") ? "block" : "none";
+        }
+
+        function onScanSuccess(decodedText, decodedResult) {
+            document.getElementById('codigo_barras').value = decodedText;
+        }
+
+        let html5QrcodeScanner = new Html5QrcodeScanner("reader", { fps: 10, qrbox: 250 });
+        html5QrcodeScanner.render(onScanSuccess);
+    </script>
+</body>
+</html>
+
+    <script>
+        function toggleEdit(idForm) {
+            var x = document.getElementById(idForm);
+            x.style.display = (x.style.display === "none") ? "block" : "none";
+        }
+
+        function onScanSuccess(decodedText, decodedResult) {
+            document.getElementById('codigo_barras').value = decodedText;
+        }
+
+        let html5QrcodeScanner = new Html5QrcodeScanner("reader", { fps: 10, qrbox: 250 });
+        html5QrcodeScanner.render(onScanSuccess);
+    </script>
+</body>
+</html>
