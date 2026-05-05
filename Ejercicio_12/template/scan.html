@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Escanear</title>
+    <script src="https://cdn.socket.io/4.0.0/socket.io.min.js"></script>
+    <script src="https://unpkg.com/@zxing/library@latest"></script>
+
+    <style>
+        body {
+            margin: 0;
+            background: black;
+            color: white;
+            text-align: center;
+        }
+
+        video {
+            width: 100%;
+            height: auto;
+        }
+    </style>
+</head>
+
+<body>
+
+<h2>📷 Escanea el producto</h2>
+<video id="video" autoplay></video>
+
+<script>
+const socket = io();
+const codeReader = new ZXing.BrowserBarcodeReader();
+
+codeReader.decodeFromVideoDevice(null, 'video', (result, err) => {
+    if (result) {
+        socket.emit("nuevo_codigo", {
+            codigo: result.text
+        });
+
+        navigator.vibrate(200);
+
+        // Evitar duplicados
+        codeReader.reset();
+        setTimeout(() => {
+            codeReader.decodeFromVideoDevice(null, 'video', arguments.callee);
+        }, 1500);
+    }
+});
+</script>
+
+</body>
+</html>
