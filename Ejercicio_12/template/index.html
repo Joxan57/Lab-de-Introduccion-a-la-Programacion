@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>TPV</title>
+    <script src="https://cdn.socket.io/4.0.0/socket.io.min.js"></script>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial;
+            background: #f4f6f9;
+        }
+
+        .header {
+            background: #0071ce;
+            color: white;
+            padding: 15px;
+            font-size: 22px;
+        }
+
+        .container {
+            display: flex;
+            height: 90vh;
+        }
+
+        .productos {
+            flex: 2;
+            background: white;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .producto {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .total {
+            flex: 1;
+            background: #0a2a66;
+            color: white;
+            padding: 20px;
+        }
+
+        .total h1 {
+            font-size: 40px;
+        }
+
+        button {
+            padding: 15px;
+            background: #ffc220;
+            border: none;
+            font-size: 18px;
+            width: 100%;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="header">🛒 Caja Registradora</div>
+
+<div class="container">
+    <div class="productos" id="lista"></div>
+
+    <div class="total">
+        <h3>Subtotal: $<span id="subtotal">0</span></h3>
+        <h3>IVA: $<span id="iva">0</span></h3>
+        <h1>Total: $<span id="total">0</span></h1>
+
+        <button onclick="window.open('/scan')">📷 Escanear desde celular</button>
+    </div>
+</div>
+
+<script>
+const socket = io();
+
+socket.on("actualizar", data => {
+    const lista = document.getElementById("lista");
+
+    const div = document.createElement("div");
+    div.className = "producto";
+    div.innerHTML = `
+        <span>${data.producto.nombre}</span>
+        <span>$${data.producto.precio}</span>
+    `;
+
+    lista.appendChild(div);
+
+    document.getElementById("subtotal").innerText = data.subtotal.toFixed(2);
+    document.getElementById("iva").innerText = data.iva.toFixed(2);
+    document.getElementById("total").innerText = data.total.toFixed(2);
+});
+</script>
+
+</body>
+</html>
